@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_it_alerte_tree" model="ir.ui.view">
+        <field name="name">it.alerte.tree</field>
+        <field name="model">it.alerte</field>
+        <field name="arch" type="xml">
+            <list string="Alertes">
+                <field name="name"/>
+                <field name="type_alerte"/>
+                <field name="equipement_id"/>
+                <field name="contrat_id"/>
+                <field name="date_echeance"/>
+                <field name="jours_restants"/>
+                <field name="responsable_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_it_alerte_form" model="ir.ui.view">
+        <field name="name">it.alerte.form</field>
+        <field name="model">it.alerte</field>
+        <field name="arch" type="xml">
+            <form string="Alerte">
+                <header>
+                    <button name="action_prendre_en_charge" string="Prendre en charge" type="object"
+                            class="btn-primary" invisible="state != 'nouvelle'"/>
+                    <button name="action_marquer_traitee" string="Marquer comme traitée" type="object"
+                            class="btn-primary" invisible="state not in ('nouvelle', 'en_traitement')"/>
+                    <button name="action_ignorer" string="Ignorer" type="object"
+                            class="btn-secondary" invisible="state in ('traitee', 'ignoree')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Élément concerné">
+                            <field name="type_alerte"/>
+                            <field name="equipement_id" invisible="type_alerte != 'garantie'"/>
+                            <field name="contrat_id" invisible="type_alerte != 'contrat'"/>
+                        </group>
+                        <group string="Échéance">
+                            <field name="date_alerte"/>
+                            <field name="date_echeance"/>
+                            <field name="jours_restants"/>
+                            <field name="responsable_id"/>
+                        </group>
+                    </group>
+                    <group string="Notes / Actions à mener">
+                        <field name="note" nolabel="1" placeholder="Actions entreprises, commentaires..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_it_alerte" model="ir.actions.act_window">
+        <field name="name">Alertes</field>
+        <field name="res_model">it.alerte</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_it_contrat_tree" model="ir.ui.view">
+        <field name="name">it.contrat.tree</field>
+        <field name="model">it.contrat</field>
+        <field name="arch" type="xml">
+            <list string="Contrats Fournisseurs">
+                <field name="name"/>
+                <field name="fournisseur_id"/>
+                <field name="type_contrat"/>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+                <field name="montant"/>
+                <field name="jours_restants"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_it_contrat_form" model="ir.ui.view">
+        <field name="name">it.contrat.form</field>
+        <field name="model">it.contrat</field>
+        <field name="arch" type="xml">
+            <form string="Contrat Fournisseur">
+                <header>
+                    <button name="action_resilier" string="Résilier" type="object" class="btn-secondary"
+                            invisible="state != 'actif'"/>
+                    <button name="action_reactiver" string="Réactiver" type="object" class="btn-primary"
+                            invisible="state == 'actif'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="actif,expire,resilie"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Informations générales">
+                            <field name="fournisseur_id"/>
+                            <field name="type_contrat"/>
+                        </group>
+                        <group string="Période et montant">
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                            <field name="montant"/>
+                            <field name="jours_restants" readonly="1"/>
+                            <field name="is_expired" readonly="1" invisible="not is_expired"/>
+                            <field name="is_expiring_soon" readonly="1" invisible="not is_expiring_soon"/>
+                        </group>
+                    </group>
+
+                    <group string="Renouvellement" invisible="not renouvele_de_id and not contrat_renouvele_id">
+                        <field name="renouvele_de_id" readonly="1"/>
+                        <field name="contrat_renouvele_id" readonly="1"/>
+                    </group>
+
+                    <group string="Description / Conditions">
+                        <field name="description" nolabel="1" placeholder="Conditions du contrat, clauses particulières..."/>
+                    </group>
+
+                    <notebook>
+                        <page string="Équipements">
+                            <field name="equipement_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_it_contrat" model="ir.actions.act_window">
+        <field name="name">Contrats</field>
+        <field name="res_model">it.contrat</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

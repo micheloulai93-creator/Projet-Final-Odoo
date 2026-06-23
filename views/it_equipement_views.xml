@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_it_equipement_tree" model="ir.ui.view">
+        <field name="name">it.equipement.tree</field>
+        <field name="model">it.equipement</field>
+        <field name="arch" type="xml">
+            <list string="Équipements Informatiques">
+                <field name="name"/>
+                <field name="num_serie"/>
+                <field name="employe_id"/>
+                <field name="department_id"/>
+                <field name="date_garantie"/>
+                <field name="valeur_achat"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_it_equipement_form" model="ir.ui.view">
+        <field name="name">it.equipement.form</field>
+        <field name="model">it.equipement</field>
+        <field name="arch" type="xml">
+            <form string="Équipement">
+                <header>
+                    <button name="action_affecter" string="Affecter" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_mettre_en_maintenance" string="Mettre en maintenance" type="object"
+                            class="btn-primary" invisible="state != 'assigned'"/>
+                    <button name="action_remettre_en_service" string="Remettre en service" type="object"
+                            class="btn-secondary" invisible="state not in ('in_maintenance', 'retired')"/>
+                    <button name="action_retirer" string="Retirer" type="object"
+                            class="btn-secondary" invisible="state in ('retired', 'draft')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="num_serie"/>
+                            <field name="categorie"/>
+                            <field name="marque"/>
+                            <field name="modele"/>
+                            <field name="valeur_achat"/>
+                            <field name="date_garantie"/>
+                        </group>
+                        <group>
+                            <field name="employe_id"/>
+                            <field name="department_id"/>
+                            <field name="site"/>
+                            <field name="localisation"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Historique des affectations">
+                            <field name="affectation_ids" readonly="1">
+                                <list>
+                                    <field name="date_affectation"/>
+                                    <field name="ancien_employe_id"/>
+                                    <field name="nouvel_employe_id"/>
+                                    <field name="ancien_department_id"/>
+                                    <field name="nouveau_department_id"/>
+                                    <field name="motif"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_it_equipement" model="ir.actions.act_window">
+        <field name="name">Équipements</field>
+        <field name="res_model">it.equipement</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

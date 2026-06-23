@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- MENU PRINCIPAL -->
+    <menuitem id="menu_it_parc_root" name="Parc informatique" sequence="10"/>
+
+    <!-- NIVEAU 1 : liens directs, sans enfants -->
+    <menuitem id="menu_it_parc_equipements"
+              name="Équipements"
+              parent="menu_it_parc_root"
+              action="action_it_equipement"
+              sequence="10"/>
+
+    <menuitem id="menu_it_parc_interventions"
+              name="Interventions"
+              parent="menu_it_parc_root"
+              action="action_it_intervention"
+              sequence="20"/>
+
+    <menuitem id="menu_it_parc_contrats"
+              name="Contrats"
+              parent="menu_it_parc_root"
+              action="action_it_contrat"
+              sequence="30"/>
+
+    <menuitem id="menu_it_parc_alertes"
+              name="Alertes"
+              parent="menu_it_parc_root"
+              action="action_it_alerte"
+              sequence="40"/>
+
+    <!-- NIVEAU 1 : dossier "Outils" — regroupe tous les wizards -->
+    <menuitem id="menu_it_parc_outils"
+              name="Outils"
+              parent="menu_it_parc_root"
+              sequence="50"/>
+
+</odoo>

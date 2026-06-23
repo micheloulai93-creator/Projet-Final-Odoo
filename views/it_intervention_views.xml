@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_it_intervention_tree" model="ir.ui.view">
+        <field name="name">it.intervention.tree</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <list string="Interventions">
+                <field name="name"/>
+                <field name="equipement_id"/>
+                <field name="technicien_id"/>
+                <field name="type_intervention"/>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+                <field name="duree"/>
+                <field name="cout"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_it_intervention_form" model="ir.ui.view">
+        <field name="name">it.intervention.form</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <form string="Intervention">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Équipement et type">
+                            <field name="equipement_id"/>
+                            <field name="type_intervention"/>
+                            <field name="technicien_id"/>
+                        </group>
+                        <group string="Planification">
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                            <field name="duree" readonly="1"/>
+                            <field name="cout"/>
+                        </group>
+                    </group>
+                    <group string="Description du problème">
+                        <field name="description" nolabel="1" placeholder="Décrivez le problème ou la maintenance à effectuer..."/>
+                    </group>
+                    <group string="Rapport d'intervention">
+                        <field name="rapport" nolabel="1" placeholder="Compte-rendu de l'intervention réalisée..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_it_intervention_calendar" model="ir.ui.view">
+        <field name="name">it.intervention.calendar</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <calendar string="Interventions planifiées" date_start="date_debut" date_stop="date_fin"
+                      color="type_intervention" mode="month">
+                <field name="name"/>
+                <field name="equipement_id"/>
+                <field name="technicien_id"/>
+                <field name="type_intervention"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_it_intervention" model="ir.actions.act_window">
+        <field name="name">Interventions</field>
+        <field name="res_model">it.intervention</field>
+        <field name="view_mode">list,form,calendar</field>
+    </record>
+
+</odoo>
