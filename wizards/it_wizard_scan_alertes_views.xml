@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- W03 - Wizard de Scan des Alertes                               -->
+    <!-- ============================================================ -->
+
+    <!-- ACTION DU WIZARD -->
+    <record id="action_wizard_scan_alertes" model="ir.actions.act_window">
+        <field name="name">Scanner les alertes</field>
+        <field name="res_model">it.wizard.scan.alertes</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Scanner les garanties et contrats pour générer des alertes
+            </p>
+        </field>
+    </record>
+
+    <!-- VUE FORMULAIRE DU WIZARD -->
+    <record id="view_wizard_scan_alertes_form" model="ir.ui.view">
+        <field name="name">wizard.scan.alertes.form</field>
+        <field name="model">it.wizard.scan.alertes</field>
+        <field name="arch" type="xml">
+            <form string="Scan des alertes">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Scan des alertes</h1>
+                        <p class="text-muted">Générer des alertes pour les garanties et contrats proches de l'expiration</p>
+                    </div>
+
+                    <group>
+                        <field name="delai_alerte" required="1"/>
+                        <field name="types_alerte" required="1"/>
+                    </group>
+
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-clock-o"/> Les alertes seront créées pour tous les éléments concernés.<br/>
+                        <small>Les alertes déjà existantes et non résolues ne seront pas dupliquées.</small>
+                    </div>
+
+                    <group string="Résultat du scan" invisible="not scan_effectue">
+                        <field name="alertes_creees" readonly="1"/>
+                    </group>
+
+                    <group string="Rapport détaillé" invisible="not scan_effectue">
+                        <field name="resultat_scan" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_scanner" string="Scanner" type="object" class="btn-primary"
+                            invisible="scan_effectue"/>
+                    <button name="action_voir_alertes" string="Voir les alertes" type="object" class="btn-success"
+                            invisible="not scan_effectue or alertes_creees == 0"/>
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- MENU DU WIZARD -->
+   <menuitem id="menu_wizard_scan_alertes"
+          name="Scanner les alertes"
+          parent="it_parc.menu_it_parc_outils"
+          action="action_wizard_scan_alertes"
+          groups="group_it_manager"
+          sequence="20"/>
+
+</odoo>

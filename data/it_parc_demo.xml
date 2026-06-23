@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!-- DONNÉES DE DÉMONSTRATION - ÉQUIPEMENTS                        -->
+        <!-- ============================================================ -->
+
+        <record id="demo_equip_1" model="it.equipement">
+            <field name="name">MacBook Pro M3 - Michel Oulai</field>
+            <field name="num_serie">SN-MBP-001</field>
+            <field name="categorie">poste_travail</field>
+            <field name="marque">Apple</field>
+            <field name="modele">MacBook Pro 14" M3</field>
+            <field name="valeur_achat">2500000</field>
+            <field name="date_achat">2025-01-15</field>
+            <field name="date_garantie">2026-01-15</field>
+            <field name="site">abidjan_cocody</field>
+            <field name="localisation">Bureau 201</field>
+            <field name="state">assigned</field>
+            <field name="employe_id" ref="hr.employee_admin"/>
+        </record>
+
+        <record id="demo_equip_2" model="it.equipement">
+            <field name="name">Serveur Dell PowerEdge R750</field>
+            <field name="num_serie">SN-SRV-002</field>
+            <field name="categorie">serveur</field>
+            <field name="marque">Dell</field>
+            <field name="modele">PowerEdge R750</field>
+            <field name="valeur_achat">8500000</field>
+            <field name="date_achat">2024-06-01</field>
+            <field name="date_garantie">2027-06-01</field>
+            <field name="site">abidjan_plateau</field>
+            <field name="localisation">Salle serveur</field>
+            <field name="state">assigned</field>
+        </record>
+
+        <record id="demo_equip_3" model="it.equipement">
+            <field name="name">Imprimante HP LaserJet Pro MFP</field>
+            <field name="num_serie">SN-IMP-003</field>
+            <field name="categorie">imprimante</field>
+            <field name="marque">HP</field>
+            <field name="modele">LaserJet Pro MFP M227fdw</field>
+            <field name="valeur_achat">450000</field>
+            <field name="date_achat">2025-03-10</field>
+            <field name="date_garantie">2026-03-10</field>
+            <field name="site">abidjan_cocody</field>
+            <field name="localisation">Bureau 105</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="demo_equip_4" model="it.equipement">
+            <field name="name">Switch Cisco 24 Ports</field>
+            <field name="num_serie">SN-SWITCH-004</field>
+            <field name="categorie">reseau</field>
+            <field name="marque">Cisco</field>
+            <field name="modele">Catalyst 2960-24TT</field>
+            <field name="valeur_achat">650000</field>
+            <field name="date_achat">2024-12-01</field>
+            <field name="date_garantie">2026-12-01</field>
+            <field name="site">bouake</field>
+            <field name="localisation">Salle technique</field>
+            <field name="state">assigned</field>
+        </record>
+
+        <record id="demo_equip_5" model="it.equipement">
+            <field name="name">Téléphone IP Yealink T46S</field>
+            <field name="num_serie">SN-PHONE-005</field>
+            <field name="categorie">telephone</field>
+            <field name="marque">Yealink</field>
+            <field name="modele">SIP-T46S</field>
+            <field name="valeur_achat">150000</field>
+            <field name="date_achat">2025-05-20</field>
+            <field name="date_garantie">2026-05-20</field>
+            <field name="site">abidjan_cocody</field>
+            <field name="localisation">Bureau 301</field>
+            <field name="state">in_maintenance</field>
+        </record>
+
+        <record id="demo_equip_6" model="it.equipement">
+            <field name="name">PC Bureau Lenovo ThinkCentre</field>
+            <field name="num_serie">SN-PC-006</field>
+            <field name="categorie">poste_travail</field>
+            <field name="marque">Lenovo</field>
+            <field name="modele">ThinkCentre M70s</field>
+            <field name="valeur_achat">850000</field>
+            <field name="date_achat">2024-09-01</field>
+            <field name="date_garantie">2025-09-01</field>
+            <field name="site">abidjan_plateau</field>
+            <field name="localisation">Bureau 110</field>
+            <field name="state">assigned</field>
+        </record>
+
+        <record id="demo_equip_7" model="it.equipement">
+            <field name="name">Serveur de sauvegarde Synology</field>
+            <field name="num_serie">SN-NAS-007</field>
+            <field name="categorie">serveur</field>
+            <field name="marque">Synology</field>
+            <field name="modele">RS3621xs+</field>
+            <field name="valeur_achat">3200000</field>
+            <field name="date_achat">2024-03-15</field>
+            <field name="date_garantie">2026-03-15</field>
+            <field name="site">abidjan_plateau</field>
+            <field name="localisation">Salle serveur</field>
+            <field name="state">assigned</field>
+        </record>
+
+        <record id="demo_equip_8" model="it.equipement">
+            <field name="name">Imprimante Canon Bouaké</field>
+            <field name="num_serie">SN-IMP-008</field>
+            <field name="categorie">imprimante</field>
+            <field name="marque">Canon</field>
+            <field name="modele">imageRUNNER 2630i</field>
+            <field name="valeur_achat">980000</field>
+            <field name="date_achat">2023-11-01</field>
+            <field name="date_garantie">2025-11-01</field>
+            <field name="site">bouake</field>
+            <field name="localisation">Accueil</field>
+            <field name="state">retired</field>
+        </record>
+
+        <record id="demo_equip_9" model="it.equipement">
+            <field name="name">Routeur Mikrotik Bouaké</field>
+            <field name="num_serie">SN-RT-009</field>
+            <field name="categorie">reseau</field>
+            <field name="marque">Mikrotik</field>
+            <field name="modele">CCR2004-1G-12S+2XS</field>
+            <field name="valeur_achat">720000</field>
+            <field name="date_achat">2025-02-01</field>
+            <field name="date_garantie">2026-07-15</field>
+            <field name="site">bouake</field>
+            <field name="localisation">Salle technique</field>
+            <field name="state">assigned</field>
+        </record>
+
+        <record id="demo_equip_10" model="it.equipement">
+            <field name="name">Téléphone IP Cisco Plateau</field>
+            <field name="num_serie">SN-PHONE-010</field>
+            <field name="categorie">telephone</field>
+            <field name="marque">Cisco</field>
+            <field name="modele">CP-8841</field>
+            <field name="valeur_achat">180000</field>
+            <field name="date_achat">2025-04-12</field>
+            <field name="date_garantie">2026-04-12</field>
+            <field name="site">abidjan_plateau</field>
+            <field name="localisation">Bureau 204</field>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- DONNÉES DE DÉMONSTRATION - INTERVENTIONS                      -->
+        <!-- ============================================================ -->
+
+        <record id="demo_interv_1" model="it.intervention">
+            <field name="name">Maintenance préventive - MacBook Pro</field>
+            <field name="equipement_id" ref="demo_equip_1"/>
+            <field name="type_intervention">preventive</field>
+            <field name="date_debut">2025-06-10 09:00:00</field>
+            <field name="date_fin">2025-06-10 11:30:00</field>
+            <field name="cout">25000</field>
+            <field name="rapport">Nettoyage et vérification du système. Batterie OK, SSD OK.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="demo_interv_2" model="it.intervention">
+            <field name="name">Réparation imprimante - Bourrage papier</field>
+            <field name="equipement_id" ref="demo_equip_3"/>
+            <field name="type_intervention">corrective</field>
+            <field name="date_debut">2025-07-15 14:00:00</field>
+            <field name="date_fin">2025-07-15 15:30:00</field>
+            <field name="cout">35000</field>
+            <field name="rapport">Bourrage papier résolu. Rouleaux d'alimentation remplacés.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="demo_interv_3" model="it.intervention">
+            <field name="name">Remplacement disque - Serveur Dell</field>
+            <field name="equipement_id" ref="demo_equip_2"/>
+            <field name="type_intervention">corrective</field>
+            <field name="date_debut">2025-08-02 08:00:00</field>
+            <field name="date_fin">2025-08-02 13:00:00</field>
+            <field name="cout">450000</field>
+            <field name="rapport">Disque RAID défaillant remplacé, reconstruction du tableau effectuée.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="demo_interv_4" model="it.intervention">
+            <field name="name">Mise à jour firmware - Switch Cisco</field>
+            <field name="equipement_id" ref="demo_equip_4"/>
+            <field name="type_intervention">preventive</field>
+            <field name="date_debut">2025-09-05 10:00:00</field>
+            <field name="date_fin">2025-09-05 11:00:00</field>
+            <field name="cout">15000</field>
+            <field name="rapport">Mise à jour du firmware effectuée sans incident.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="demo_interv_5" model="it.intervention">
+            <field name="name">Diagnostic téléphone IP - Pas de tonalité</field>
+            <field name="equipement_id" ref="demo_equip_5"/>
+            <field name="type_intervention">corrective</field>
+            <field name="date_debut">2026-06-15 09:00:00</field>
+            <field name="cout">0</field>
+            <field name="rapport">Diagnostic en cours, pièce de remplacement commandée.</field>
+            <field name="state">en_cours</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- DONNÉES DE DÉMONSTRATION - CONTRATS                           -->
+        <!-- ============================================================ -->
+
+        <record id="demo_contrat_1" model="it.contrat">
+            <field name="name">Contrat Maintenance HP</field>
+            <field name="fournisseur_id" ref="base.main_partner"/>
+            <field name="type_contrat">maintenance</field>
+            <field name="date_debut">2025-01-01</field>
+            <field name="date_fin">2025-12-31</field>
+            <field name="montant">500000</field>
+            <field name="description">Maintenance préventive et corrective des imprimantes HP</field>
+            <field name="state">actif</field>
+        </record>
+
+        <record id="demo_contrat_2" model="it.contrat">
+            <field name="name">Contrat Support Serveur Dell</field>
+            <field name="fournisseur_id" ref="base.main_partner"/>
+            <field name="type_contrat">licence</field>
+            <field name="date_debut">2025-06-01</field>
+            <field name="date_fin">2026-05-31</field>
+            <field name="montant">1200000</field>
+            <field name="description">Support technique et garantie étendue pour serveur Dell</field>
+            <field name="state">actif</field>
+        </record>
+
+        <record id="demo_contrat_3" model="it.contrat">
+            <field name="name">Contrat Licence Antivirus Entreprise</field>
+            <field name="fournisseur_id" ref="base.main_partner"/>
+            <field name="type_contrat">licence</field>
+            <field name="date_debut">2025-09-01</field>
+            <field name="date_fin">2026-08-31</field>
+            <field name="montant">680000</field>
+            <field name="description">Licence annuelle antivirus pour l'ensemble du parc</field>
+            <field name="state">actif</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- W02 - Wizard d'Import CSV                                       -->
+    <!-- ============================================================ -->
+
+    <!-- ACTION DU WIZARD -->
+    <record id="action_wizard_import_csv" model="ir.actions.act_window">
+        <field name="name">Import CSV d'équipements</field>
+        <field name="res_model">it.wizard.import.csv</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Importer en masse des équipements depuis un fichier CSV
+            </p>
+        </field>
+    </record>
+
+    <!-- VUE FORMULAIRE DU WIZARD (Étape 1 : Import) -->
+    <record id="view_wizard_import_csv_form" model="ir.ui.view">
+        <field name="name">wizard.import.csv.form</field>
+        <field name="model">it.wizard.import.csv</field>
+        <field name="arch" type="xml">
+            <form string="Import CSV">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Import en masse d'équipements</h1>
+                        <p class="text-muted">Chargez un fichier CSV pour créer ou mettre à jour vos équipements</p>
+                    </div>
+
+                    <group>
+                        <field name="csv_file" filename="filename" required="1"
+                               widget="binary" accept=".csv"/>
+                        <field name="filename" invisible="1"/>
+                    </group>
+
+                    <group>
+                        <field name="separator" required="1"/>
+                        <field name="import_options" required="1"/>
+                    </group>
+
+                    <!-- Exemple de format CSV -->
+                    <div class="alert alert-info" role="alert">
+                        <strong><i class="fa fa-info-circle"/> Format attendu :</strong><br/>
+                        <code>
+                            nom;type_equipement;num_serie;marque;modele;valeur_achat;date_garantie;fournisseur;employe;departement
+                        </code>
+                        <br/>
+                        <small>
+                            <b>Colonnes obligatoires :</b> nom, type_equipement, num_serie<br/>
+                            <b>Types valides :</b> poste_de_travail, serveur, imprimante, reseau, telephone, autre
+                        </small>
+                    </div>
+
+                    <!-- Champ de résultat (visible après import) -->
+                    <group string="Résultat de l'import" invisible="not import_fait">
+                        <field name="lignes_importees"/>
+                        <field name="lignes_ignorees"/>
+                        <field name="lignes_erreur"/>
+                    </group>
+
+                    <group string="Rapport détaillé" invisible="not import_fait">
+                        <field name="rapport_lignes" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_importer" string="Importer" type="object" class="btn-primary"
+                            invisible="import_fait"/>
+                    <button name="action_telecharger_rapport" string="Télécharger le rapport" type="object"
+                            class="btn-secondary" invisible="not import_fait"/>
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- MENU DU WIZARD -->
+    <menuitem id="menu_wizard_import_csv"
+          name="Import CSV"
+          parent="it_parc.menu_it_parc_outils"
+          action="action_wizard_import_csv"
+          groups="group_it_manager"
+          sequence="30"/>
+
+</odoo>

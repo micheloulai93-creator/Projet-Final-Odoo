@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- EXPORT 3 : Contrats expirant                                  -->
+    <!-- ============================================================ -->
+
+    <record id="action_wizard_export_contrats" model="ir.actions.act_window">
+        <field name="name">Export Excel - Contrats expirant</field>
+        <field name="res_model">it.wizard.export.contrats</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_it_contrat"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <record id="view_wizard_export_contrats_form" model="ir.ui.view">
+        <field name="name">wizard.export.contrats.form</field>
+        <field name="model">it.wizard.export.contrats</field>
+        <field name="arch" type="xml">
+            <form string="Export Contrats">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Export Excel - Contrats expirant</h1>
+                        <p class="text-muted">Mise en couleur conditionnelle selon l'urgence</p>
+                    </div>
+
+                    <group>
+                        <field name="delai_jours" required="1"/>
+                        <field name="only_active"/>
+                        <field name="include_equipements"/>
+                    </group>
+
+                    <div class="alert alert-info" role="alert" style="margin-top: 10px;">
+                        <i class="fa fa-info-circle" title="Information sur les codes couleurs" aria-label="Information sur les codes couleurs"/>
+                        <strong>Code couleur :</strong>
+                        <span style="color: #FF0000;" aria-label="Expiré">🔴 EXPIRÉ</span> |
+                        <span style="color: #FF9800;" aria-label="Moins de 30 jours">🟠 &lt; 30 jours</span> |
+                        <span style="color: #FFEB3B;" aria-label="31 à 60 jours">🟡 31-60 jours</span>
+                    </div>
+
+                    <group string="Fichier" invisible="not export_done">
+                        <field name="filename"/>
+                        <field name="file_datas" invisible="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export" string="Exporter" type="object" class="btn-primary"
+                            invisible="export_done"/>
+                    <button name="action_download" string="Télécharger" type="object" class="btn-success"
+                            invisible="not export_done"/>
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================
+         CATÉGORIE DU MODULE
+    ================================================================ -->
+    <record id="module_category_it_parc" model="ir.module.category">
+        <field name="name">IT Parc</field>
+        <field name="description">Gestion du parc informatique TECHPARK CI</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- ================================================================
+         GROUPE : Technicien IT (lecture + création interventions)
+    ================================================================ -->
+    <record id="group_it_technicien" model="res.groups">
+        <field name="name">Technicien IT</field>
+        <field name="category_id" ref="module_category_it_parc"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Accès en lecture et création d'interventions</field>
+    </record>
+
+    <!-- ================================================================
+         GROUPE : Manager IT (accès complet)
+    ================================================================ -->
+    <record id="group_it_manager" model="res.groups">
+        <field name="name">Manager IT</field>
+        <field name="category_id" ref="module_category_it_parc"/>
+        <field name="implied_ids" eval="[(4, ref('group_it_technicien'))]"/>
+        <field name="comment">Accès complet à toutes les fonctionnalités</field>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- ================================================================
+         RÈGLE : Les techniciens ne peuvent voir que leurs interventions
+    ================================================================ -->
+    <record id="it_intervention_technicien_rule" model="ir.rule">
+        <field name="name">Intervention: Technicien</field>
+        <field name="model_id" ref="model_it_intervention"/>
+        <field name="domain_force">[('technicien_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_it_technicien'))]"/>
+    </record>
+
+    <!-- ================================================================
+         RÈGLE : Les managers voient tout
+    ================================================================ -->
+    <record id="it_intervention_manager_rule" model="ir.rule">
+        <field name="name">Intervention: Manager</field>
+        <field name="model_id" ref="model_it_intervention"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_it_manager'))]"/>
+    </record>
+
+</odoo>

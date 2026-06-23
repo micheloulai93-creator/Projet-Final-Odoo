@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_fiche_equipement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="equip">
+                <t t-call="it_parc.report_fiche_equipement_content"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_fiche_equipement_content">
+        <div class="page" style="padding: 30px; font-family: Arial, Helvetica, sans-serif; color: #2c2c2c;">
+
+            <!-- En-tête -->
+            <div style="border-bottom: 3px solid #2d6da8; padding-bottom: 14px; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <h1 style="color: #2d6da8; margin: 0; font-size: 26px; letter-spacing: 0.5px;">FICHE ÉQUIPEMENT</h1>
+                        <p style="color: #888; margin: 4px 0 0 0; font-size: 13px;">TECHPARK CI — Parc informatique</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="margin: 0; font-size: 11px; color: #aaa;">
+                            Généré le <span t-esc="datetime.date.today().strftime('%d/%m/%Y')"/>
+                        </p>
+                        <p style="margin: 2px 0 0 0; font-size: 11px; color: #aaa;">
+                            Réf : <span t-esc="equip.name"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bannière d'état -->
+            <div t-attf-style="padding: 12px 16px; margin-bottom: 24px; border-radius: 6px; font-size: 13px; #{equip.state == 'draft' and 'background-color: #f3f3f3; border-left: 4px solid #999;' or equip.state == 'assigned' and 'background-color: #e8f5e9; border-left: 4px solid #4caf50;' or equip.state == 'in_maintenance' and 'background-color: #fff3e0; border-left: 4px solid #ff9800;' or equip.state == 'retired' and 'background-color: #fce4ec; border-left: 4px solid #f44336;'}">
+                <strong>État :</strong>
+                <t t-esc="dict(equip._fields['state'].selection).get(equip.state)"/>
+                <t t-if="equip.state == 'assigned' and equip.employe_id">
+                    — Affecté à <b t-esc="equip.employe_id.name"/>
+                    <t t-if="equip.department_id"> (<t t-esc="equip.department_id.name"/>)</t>
+                </t>
+                <t t-if="equip.state == 'in_maintenance'"> — En intervention en cours</t>
+                <t t-if="equip.state == 'retired'"> — Équipement retiré du parc</t>
+                <t t-if="equip.state == 'draft'"> — En attente d'affectation</t>
+            </div>
+
+            <!-- Informations principales -->
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                <tr>
+                    <td style="width: 50%; vertical-align: top; padding-right: 16px;">
+                        <h3 style="color: #2d6da8; border-bottom: 1px solid #eee; padding-bottom: 6px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Caractéristiques</h3>
+                        <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                            <tr><td style="padding: 5px 0; font-weight: bold; width: 40%; color: #555;">Nom</td><td style="padding: 5px 0;" t-esc="equip.name"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Catégorie</td><td style="padding: 5px 0;" t-esc="dict(equip._fields['categorie'].selection).get(equip.categorie)"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Numéro de série</td><td style="padding: 5px 0;" t-esc="equip.num_serie or 'Non renseigné'"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Marque</td><td style="padding: 5px 0;" t-esc="equip.marque or 'Non renseigné'"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Modèle</td><td style="padding: 5px 0;" t-esc="equip.modele or 'Non renseigné'"/></tr>
+                            <tr>
+                                <td style="padding: 5px 0; font-weight: bold; color: #555;">Valeur d'achat</td>
+                                <td style="padding: 5px 0;">
+                                    <t t-esc="'{:,.0f}'.format(equip.valeur_achat) if equip.valeur_achat else 'Non renseigné'"/> FCFA
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width: 50%; vertical-align: top; padding-left: 16px; border-left: 1px solid #f0f0f0;">
+                        <h3 style="color: #2d6da8; border-bottom: 1px solid #eee; padding-bottom: 6px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Affectation</h3>
+                        <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                            <tr><td style="padding: 5px 0; font-weight: bold; width: 40%; color: #555;">Employé</td><td style="padding: 5px 0;" t-esc="equip.employe_id.name or 'Non affecté'"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Département</td><td style="padding: 5px 0;" t-esc="equip.department_id.name or 'Non défini'"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Site</td><td style="padding: 5px 0;" t-esc="dict(equip._fields['site'].selection).get(equip.site) if equip.site else 'Non renseigné'"/></tr>
+                            <tr><td style="padding: 5px 0; font-weight: bold; color: #555;">Localisation</td><td style="padding: 5px 0;" t-esc="equip.localisation or 'Non renseignée'"/></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Garantie et fournisseur -->
+            <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+                <div style="flex: 1; background: #fafafa; padding: 16px; border-radius: 6px; border: 1px solid #eee;">
+                    <h4 style="margin: 0 0 10px 0; color: #2d6da8; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Garantie</h4>
+                    <p style="margin: 4px 0; font-size: 13px;">
+                        <strong>Expiration :</strong>
+                        <t t-esc="equip.date_garantie.strftime('%d/%m/%Y') if equip.date_garantie else 'Non renseignée'"/>
+                    </p>
+                    <p style="margin: 8px 0 0 0;" t-if="equip.date_garantie">
+                        <t t-if="equip.garantie_expired">
+                            <span style="display:inline-block; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:bold; background:#fdecea; color:#c62828;">EXPIRÉE</span>
+                        </t>
+                        <t t-elif="equip.jours_avant_garantie and equip.jours_avant_garantie &lt;= 30">
+                            <span style="display:inline-block; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:bold; background:#fff3e0; color:#e65100;">EXPIRE BIENTÔT</span>
+                        </t>
+                        <t t-else="">
+                            <span style="display:inline-block; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:bold; background:#e8f5e9; color:#2e7d32;">VALIDE</span>
+                        </t>
+                    </p>
+                </div>
+                <div style="flex: 1; background: #fafafa; padding: 16px; border-radius: 6px; border: 1px solid #eee;">
+                    <h4 style="margin: 0 0 10px 0; color: #2d6da8; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Fournisseur</h4>
+                    <p style="margin: 4px 0; font-size: 13px;" t-esc="equip.fournisseur_id.name or 'Non renseigné'"/>
+                    <p style="margin: 4px 0; font-size: 12px; color: #666;" t-if="equip.fournisseur_id and equip.fournisseur_id.phone">
+                        Tél : <t t-esc="equip.fournisseur_id.phone"/>
+                    </p>
+                    <p style="margin: 4px 0; font-size: 12px; color: #666;" t-if="equip.fournisseur_id and equip.fournisseur_id.email">
+                        Email : <t t-esc="equip.fournisseur_id.email"/>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Historique des interventions -->
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #2d6da8; border-bottom: 1px solid #eee; padding-bottom: 6px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Historique des interventions
+                    <span style="font-size: 11px; font-weight: normal; color: #999; text-transform: none;">
+                        (<t t-esc="len(equip.intervention_ids)"/> au total)
+                    </span>
+                </h3>
+                <t t-if="equip.intervention_ids">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                        <thead>
+                            <tr style="background-color: #2d6da8; color: white;">
+                                <th style="padding: 8px; text-align: left;">Date</th>
+                                <th style="padding: 8px; text-align: left;">Type</th>
+                                <th style="padding: 8px; text-align: left;">Technicien</th>
+                                <th style="padding: 8px; text-align: center;">Durée</th>
+                                <th style="padding: 8px; text-align: right;">Coût (FCFA)</th>
+                                <th style="padding: 8px; text-align: center;">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="equip.intervention_ids" t-as="interv"
+                                t-attf-style="background-color: #{interv_index % 2 == 0 and '#ffffff' or '#f7f9fb'};">
+                                <td style="padding: 7px 8px; border-bottom: 1px solid #eee;" t-esc="interv.date_debut.strftime('%d/%m/%Y') if interv.date_debut else ''"/>
+                                <td style="padding: 7px 8px; border-bottom: 1px solid #eee;" t-esc="dict(interv._fields['type_intervention'].selection).get(interv.type_intervention)"/>
+                                <td style="padding: 7px 8px; border-bottom: 1px solid #eee;" t-esc="interv.technicien_id.name or 'N/A'"/>
+                                <td style="padding: 7px 8px; border-bottom: 1px solid #eee; text-align: center;"><t t-esc="'%.1f' % interv.duree"/> h</td>
+                                <td style="padding: 7px 8px; border-bottom: 1px solid #eee; text-align: right;" t-esc="'{:,.0f}'.format(interv.cout) if interv.cout else '0'"/>
+                                <td style="padding: 7px 8px; border-bottom: 1px solid #eee; text-align: center;">
+                                    <t t-if="interv.date_fin">
+                                        <span style="display:inline-block; padding:2px 8px; border-radius:8px; font-size:10px; font-weight:bold; background:#e8f5e9; color:#2e7d32;">TERMINÉE</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display:inline-block; padding:2px 8px; border-radius:8px; font-size:10px; font-weight:bold; background:#fff3e0; color:#e65100;">EN COURS</span>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: #f0f4f8; font-weight: bold;">
+                                <td colspan="4" style="padding: 8px; text-align: right;">Total coûts :</td>
+                                <td style="padding: 8px; text-align: right;">
+                                    <t t-set="total_cout" t-value="sum(equip.intervention_ids.mapped('cout'))"/>
+                                    <t t-esc="'{:,.0f}'.format(total_cout)"/> FCFA
+                                </td>
+                                <td style="padding: 8px;"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </t>
+                <t t-else="">
+                    <p style="color: #999; font-style: italic; font-size: 13px;">Aucune intervention enregistrée pour cet équipement.</p>
+                </t>
+            </div>
+
+            <!-- Pied de page -->
+            <div style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 24px; font-size: 10px; color: #aaa; text-align: center;">
+                Document confidentiel — TECHPARK CI — <t t-esc="datetime.date.today().strftime('%d/%m/%Y')"/>
+            </div>
+        </div>
+    </template>
+
+    <record id="action_report_fiche_equipement" model="ir.actions.report">
+        <field name="name">Fiche équipement</field>
+        <field name="model">it.equipement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">it_parc.report_fiche_equipement</field>
+        <field name="report_file">it_parc.report_fiche_equipement</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Fiche_%s' % (object.name)</field>
+    </record>
+
+</odoo>

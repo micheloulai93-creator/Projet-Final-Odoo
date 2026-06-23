@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- EXPORT 1 : Inventaire complet                                 -->
+    <!-- ============================================================ -->
+
+    <record id="action_wizard_export_inventaire" model="ir.actions.act_window">
+        <field name="name">Export Excel - Inventaire</field>
+        <field name="res_model">it.wizard.export.inventaire</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <record id="view_wizard_export_inventaire_form" model="ir.ui.view">
+        <field name="name">wizard.export.inventaire.form</field>
+        <field name="model">it.wizard.export.inventaire</field>
+        <field name="arch" type="xml">
+            <form string="Export Inventaire">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Export Excel - Inventaire complet</h1>
+                    </div>
+
+                    <group string="Filtres">
+                        <field name="filtre_departement_id"/>
+                        <field name="filtre_categorie"/>
+                        <field name="filtre_etat"/>
+                    </group>
+
+                    <group string="Options">
+                        <field name="include_garantie_info"/>
+                        <field name="include_cout_maintenance"/>
+                    </group>
+
+                    <group string="Fichier" invisible="not export_done">
+                        <field name="filename"/>
+                        <field name="file_datas" invisible="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export" string="Exporter" type="object" class="btn-primary"
+                            invisible="export_done"/>
+                    <button name="action_download" string="Télécharger" type="object" class="btn-success"
+                            invisible="not export_done"/>
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

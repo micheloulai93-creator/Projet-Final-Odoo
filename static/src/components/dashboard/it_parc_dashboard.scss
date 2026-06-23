@@ -1,0 +1,379 @@
+.o_it_parc_dashboard {
+    display: block;
+    padding: 24px;
+    background: #f4f6f9;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    // -------------------------------------------------------------------
+    // Header
+    // -------------------------------------------------------------------
+    .o_it_parc_dashboard_header {
+        margin-bottom: 24px;
+
+        h2 {
+            color: #1d4f7c;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .fa {
+                color: #2d6da8;
+            }
+        }
+
+        .o_it_parc_dashboard_subtitle {
+            margin: 4px 0 0 0;
+            color: #888;
+            font-size: 13px;
+        }
+    }
+
+    .o_it_parc_section_title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #5a6b7b;
+        margin: 28px 0 12px 0;
+        border-left: 3px solid #2d6da8;
+        padding-left: 10px;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // Cards
+    // -------------------------------------------------------------------
+    .o_it_parc_dashboard_cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 8px;
+    }
+
+    .o_it_parc_card {
+        flex: 1 1 220px;
+        min-width: 200px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 18px 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        border: 1px solid #eef1f4;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .o_it_parc_card_icon {
+            flex: 0 0 44px;
+            height: 44px;
+            width: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(45, 109, 168, 0.1);
+            color: #2d6da8;
+        }
+
+        .o_it_parc_card_body {
+            min-width: 0;
+        }
+
+        .o_it_parc_card_value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1d4f7c;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .o_it_parc_card_value_small {
+            font-size: 17px;
+            white-space: normal;
+
+            .o_it_parc_unit {
+                font-size: 11px;
+                font-weight: 500;
+                color: #999;
+            }
+        }
+
+        .o_it_parc_card_label {
+            margin-top: 3px;
+            font-size: 12px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+    }
+
+    // Couleurs thématiques par carte (icône + valeur)
+    .o_it_parc_card_assigned {
+        .o_it_parc_card_value { color: #2e7d32; }
+        .o_it_parc_card_icon { background: rgba(46, 125, 50, 0.1); color: #2e7d32; }
+    }
+    .o_it_parc_card_maintenance {
+        .o_it_parc_card_value { color: #e65100; }
+        .o_it_parc_card_icon { background: rgba(230, 81, 0, 0.1); color: #e65100; }
+    }
+    .o_it_parc_card_retired {
+        .o_it_parc_card_value { color: #6a6f73; }
+        .o_it_parc_card_icon { background: rgba(106, 111, 115, 0.1); color: #6a6f73; }
+    }
+    .o_it_parc_card_taux {
+        .o_it_parc_card_value { color: #ad7e00; }
+        .o_it_parc_card_icon { background: rgba(173, 126, 0, 0.1); color: #ad7e00; }
+    }
+    .o_it_parc_card_tco {
+        .o_it_parc_card_value { color: #1565c0; }
+        .o_it_parc_card_icon { background: rgba(21, 101, 192, 0.1); color: #1565c0; }
+    }
+    .o_it_parc_card_finvie {
+        .o_it_parc_card_value { color: #c62828; }
+        .o_it_parc_card_icon { background: rgba(198, 40, 40, 0.1); color: #c62828; }
+    }
+    .o_it_parc_card_montant {
+        .o_it_parc_card_value { color: #2d6da8; }
+        cursor: default;
+        &:hover { transform: none; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+    }
+    .o_it_parc_card_alert {
+        .o_it_parc_card_value { color: #d84315; }
+        .o_it_parc_card_icon { background: rgba(216, 67, 21, 0.1); color: #d84315; }
+    }
+    .o_it_parc_card_garantie {
+        .o_it_parc_card_value { color: #00897b; }
+        .o_it_parc_card_icon { background: rgba(0, 137, 123, 0.1); color: #00897b; }
+    }
+    .o_it_parc_card_contrats {
+        .o_it_parc_card_value { color: #1565c0; }
+        .o_it_parc_card_icon { background: rgba(21, 101, 192, 0.1); color: #1565c0; }
+    }
+    .o_it_parc_card_contrats_exp {
+        .o_it_parc_card_value { color: #ef6c00; }
+        .o_it_parc_card_icon { background: rgba(239, 108, 0, 0.1); color: #ef6c00; }
+    }
+
+    // -------------------------------------------------------------------
+    // Rangée de visuels (graphiques + liste)
+    // -------------------------------------------------------------------
+    .o_it_parc_dashboard_row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 28px;
+        align-items: stretch;
+    }
+
+    .o_it_parc_dashboard_chart {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eef1f4;
+        flex: 1 1 320px;
+
+        h3 {
+            margin: 0 0 16px 0;
+            color: #1d4f7c;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .fa {
+                color: #2d6da8;
+                font-size: 13px;
+            }
+        }
+    }
+
+    .o_it_parc_chart_bars {
+        flex: 2 1 420px;
+
+        .o_it_parc_chart_svg {
+            width: 100%;
+            max-height: 220px;
+        }
+
+        .o_it_parc_bar {
+            fill: #2d6da8;
+            transition: fill 0.15s ease;
+
+            &:hover {
+                fill: #1d4f7c;
+            }
+        }
+
+        .o_it_parc_bar_label {
+            font-size: 11px;
+            fill: #888;
+        }
+
+        .o_it_parc_bar_value {
+            font-size: 11px;
+            font-weight: 600;
+            fill: #2d6da8;
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // Donut catégories
+    // -------------------------------------------------------------------
+    .o_it_parc_chart_donut {
+        flex: 1 1 280px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .o_it_parc_donut_wrap {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        margin: 0 auto 16px auto;
+    }
+
+    .o_it_parc_donut_svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .o_it_parc_donut_center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .o_it_parc_donut_total {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1d4f7c;
+        line-height: 1;
+    }
+
+    .o_it_parc_donut_total_label {
+        font-size: 10px;
+        color: #999;
+        text-transform: uppercase;
+    }
+
+    .o_it_parc_donut_legend {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .o_it_parc_legend_item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #555;
+    }
+
+    .o_it_parc_legend_dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex: 0 0 9px;
+    }
+
+    .o_it_parc_legend_label {
+        flex: 1 1 auto;
+    }
+
+    .o_it_parc_legend_value {
+        font-weight: 600;
+        color: #333;
+    }
+
+    // -------------------------------------------------------------------
+    // Liste "à traiter"
+    // -------------------------------------------------------------------
+    .o_it_parc_chart_urgent {
+        flex: 1 1 280px;
+    }
+
+    .o_it_parc_urgent_empty {
+        font-size: 13px;
+        color: #999;
+        padding: 24px 0;
+        text-align: center;
+    }
+
+    .o_it_parc_urgent_list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .o_it_parc_urgent_item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 6px;
+        background: #f7f9fb;
+        cursor: pointer;
+        font-size: 12.5px;
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: #eef2f6;
+        }
+
+        .fa {
+            color: #00897b;
+            flex: 0 0 auto;
+        }
+
+        .o_it_parc_urgent_label {
+            flex: 1 1 auto;
+            color: #444;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .o_it_parc_urgent_days {
+            flex: 0 0 auto;
+            font-weight: 700;
+            color: #ad7e00;
+            background: rgba(173, 126, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+    }
+
+    .o_it_parc_urgent_item_critical {
+        background: rgba(198, 40, 40, 0.06);
+
+        .fa {
+            color: #c62828;
+        }
+
+        .o_it_parc_urgent_days {
+            color: #c62828;
+            background: rgba(198, 40, 40, 0.12);
+        }
+    }
+}

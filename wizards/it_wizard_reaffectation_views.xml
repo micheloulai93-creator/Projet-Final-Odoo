@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- W01 - Wizard de Réaffectation d'équipement                     -->
+    <!-- ============================================================ -->
+
+    <record id="action_wizard_reaffectation" model="ir.actions.act_window">
+        <field name="name">Réaffecter l'équipement</field>
+        <field name="res_model">it.wizard.reaffectation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_view_types">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Réaffecter l'équipement à un autre employé
+            </p>
+        </field>
+    </record>
+
+    <record id="view_wizard_reaffectation_form" model="ir.ui.view">
+        <field name="name">wizard.reaffectation.form</field>
+        <field name="model">it.wizard.reaffectation</field>
+        <field name="arch" type="xml">
+            <form string="Réaffectation d'un équipement">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Réaffectation d'équipement</h1>
+                    </div>
+                    <group>
+                        <group string="Équipement concerné">
+                            <field name="equipement_id"/>
+                            <field name="equipement_display" invisible="1"/>
+                            <field name="ancien_employe_id"/>
+                            <field name="ancien_department_id"/>
+                        </group>
+                        <group string="Nouvelle affectation">
+                            <field name="employe_id" required="1"/>
+                            <field name="department_id" required="1"/>
+                            <field name="date_reaffectation" required="1"/>
+                        </group>
+                    </group>
+                    <group string="Motif">
+                        <field name="motif" nolabel="1" placeholder="Expliquez la raison de la réaffectation..." required="1"/>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-info-circle" title="Information"/> L'équipement passera automatiquement à l'état <b>"Affecté"</b> après validation.
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_reaffecter" string="Confirmer la réaffectation" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_wizard_reaffectation"
+              name="Réaffectation"
+              parent="it_parc.menu_it_parc_outils"
+              action="action_wizard_reaffectation"
+              groups="group_it_manager"
+              sequence="10"/>
+
+</odoo>

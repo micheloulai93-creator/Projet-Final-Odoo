@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="it_parc.Dashboard">
+        <div class="o_it_parc_dashboard">
+            <div class="o_it_parc_dashboard_header">
+                <h2>
+                    <i class="fa fa-desktop"/>
+                    Tableau de bord — Parc informatique
+                </h2>
+                <p class="o_it_parc_dashboard_subtitle">Vue consolidée du parc, des coûts et des échéances</p>
+            </div>
+
+            <!-- ============ SECTION 1 : Vue d'ensemble du parc (Objectif 1) ============ -->
+            <div class="o_it_parc_section_title">Vue d'ensemble du parc</div>
+            <div class="o_it_parc_dashboard_cards">
+                <div class="o_it_parc_card o_it_parc_card_total" t-on-click="openEquipements">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-server"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbEquipements"/></div>
+                        <div class="o_it_parc_card_label">Équipements</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_assigned" t-on-click="() => this.openEquipementsFiltres('assigned')">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-check-circle"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbAffectes"/></div>
+                        <div class="o_it_parc_card_label">Affectés</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_maintenance" t-on-click="() => this.openEquipementsFiltres('in_maintenance')">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-wrench"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbMaintenance"/></div>
+                        <div class="o_it_parc_card_label">En maintenance</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_retired" t-on-click="() => this.openEquipementsFiltres('retired')">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-archive"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbRetires"/></div>
+                        <div class="o_it_parc_card_label">Retirés</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ SECTION 2 : Pilotage (Objectif 5 - vocabulaire CDC) ============ -->
+            <div class="o_it_parc_section_title">Pilotage</div>
+            <div class="o_it_parc_dashboard_cards">
+                <div class="o_it_parc_card o_it_parc_card_taux">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-pause-circle"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.tauxImmobilisation"/>%</div>
+                        <div class="o_it_parc_card_label">Taux d'immobilisation</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_tco">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-money"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value o_it_parc_card_value_small">
+                            <t t-esc="formatMontant(state.coutTotalPossession)"/> <span class="o_it_parc_unit">FCFA</span>
+                        </div>
+                        <div class="o_it_parc_card_label">Coût total de possession</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_finvie" t-on-click="openEquipements">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-exclamation-triangle"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbFinDeVie"/></div>
+                        <div class="o_it_parc_card_label">En fin de vie</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_montant">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-shopping-cart"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value o_it_parc_card_value_small">
+                            <t t-esc="formatMontant(state.valeurAchatTotale)"/> <span class="o_it_parc_unit">FCFA</span>
+                        </div>
+                        <div class="o_it_parc_card_label">Valeur d'achat du parc</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ SECTION 3 : Anticipation (Objectif 3) ============ -->
+            <div class="o_it_parc_section_title">Anticipation — garanties &amp; contrats</div>
+            <div class="o_it_parc_dashboard_cards">
+                <div class="o_it_parc_card o_it_parc_card_alert" t-on-click="openAlertes">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-bell"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbAlertes"/></div>
+                        <div class="o_it_parc_card_label">Alertes actives</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_garantie" t-on-click="openEquipements">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-shield"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbGarantiesExpirantBientot"/></div>
+                        <div class="o_it_parc_card_label">Garanties &lt; 30j</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_contrats" t-on-click="openContrats">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-file-text"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbContratsActifs"/></div>
+                        <div class="o_it_parc_card_label">Contrats actifs</div>
+                    </div>
+                </div>
+                <div class="o_it_parc_card o_it_parc_card_contrats_exp" t-on-click="openContrats">
+                    <div class="o_it_parc_card_icon"><i class="fa fa-hourglass-half"/></div>
+                    <div class="o_it_parc_card_body">
+                        <div class="o_it_parc_card_value"><t t-esc="state.nbContratsExpirantBientot"/></div>
+                        <div class="o_it_parc_card_label">Contrats &lt; 60j</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ SECTION 4 : Graphiques + liste à traiter ============ -->
+            <div class="o_it_parc_dashboard_row">
+                <div class="o_it_parc_dashboard_chart o_it_parc_chart_bars">
+                    <h3><i class="fa fa-bar-chart"/> Coût de maintenance — 6 derniers mois</h3>
+                    <svg viewBox="0 0 560 200" class="o_it_parc_chart_svg" preserveAspectRatio="xMidYMid meet">
+                        <t t-foreach="state.chartData" t-as="bar" t-key="bar.label">
+                            <rect t-att-x="bar.x" t-att-y="bar.y" t-att-width="bar.width" t-att-height="bar.height"
+                                  rx="3" class="o_it_parc_bar"/>
+                            <text t-att-x="bar.x + bar.width / 2" y="176" class="o_it_parc_bar_label" text-anchor="middle">
+                                <t t-esc="bar.label"/>
+                            </text>
+                            <text t-att-x="bar.x + bar.width / 2" t-att-y="bar.y - 6" class="o_it_parc_bar_value" text-anchor="middle">
+                                <t t-esc="formatMontant(bar.value)"/>
+                            </text>
+                        </t>
+                    </svg>
+                </div>
+
+                <div class="o_it_parc_dashboard_chart o_it_parc_chart_donut">
+                    <h3><i class="fa fa-pie-chart"/> Répartition par catégorie</h3>
+                    <div class="o_it_parc_donut_wrap">
+                        <svg viewBox="0 0 120 120" class="o_it_parc_donut_svg">
+                            <t t-set="radius" t-value="50"/>
+                            <t t-set="circumference" t-value="2 * 3.14159 * radius"/>
+                            <t t-foreach="state.categorieData" t-as="seg" t-key="seg.categorie">
+                                <circle cx="60" cy="60" t-att-r="radius" fill="none"
+                                        t-att-stroke="seg.color"
+                                        stroke-width="18"
+                                        t-attf-stroke-dasharray="#{(seg.pct/100)*circumference} #{circumference}"
+                                        t-attf-stroke-dashoffset="#{-(seg.offset/100)*circumference}"
+                                        transform="rotate(-90 60 60)"/>
+                            </t>
+                        </svg>
+                        <div class="o_it_parc_donut_center">
+                            <div class="o_it_parc_donut_total"><t t-esc="state.nbEquipements"/></div>
+                            <div class="o_it_parc_donut_total_label">équip.</div>
+                        </div>
+                    </div>
+                    <div class="o_it_parc_donut_legend">
+                        <t t-foreach="state.categorieData" t-as="seg" t-key="seg.categorie">
+                            <div class="o_it_parc_legend_item">
+                                <span class="o_it_parc_legend_dot" t-attf-style="background-color: #{seg.color}"/>
+                                <span class="o_it_parc_legend_label"><t t-esc="seg.label"/></span>
+                                <span class="o_it_parc_legend_value"><t t-esc="seg.count"/> (<t t-esc="seg.pct"/>%)</span>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="o_it_parc_dashboard_chart o_it_parc_chart_urgent">
+                    <h3><i class="fa fa-exclamation-circle"/> À traiter en priorité</h3>
+                    <div t-if="!state.itemsUrgents.length" class="o_it_parc_urgent_empty">
+                        Aucune alerte active. Tout est sous contrôle.
+                    </div>
+                    <div t-else="" class="o_it_parc_urgent_list">
+                        <div t-foreach="state.itemsUrgents" t-as="item" t-key="item.id"
+                             class="o_it_parc_urgent_item"
+                             t-att-class="item.urgent ? 'o_it_parc_urgent_item_critical' : ''"
+                             t-on-click="() => this.openAlerte(item.id)">
+                            <i t-att-class="item.type === 'garantie' ? 'fa fa-shield' : 'fa fa-file-text'"/>
+                            <span class="o_it_parc_urgent_label"><t t-esc="item.label"/></span>
+                            <span class="o_it_parc_urgent_days">
+                                <t t-if="item.joursRestants &lt; 0">Expiré</t>
+                                <t t-else=""><t t-esc="item.joursRestants"/> j</t>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

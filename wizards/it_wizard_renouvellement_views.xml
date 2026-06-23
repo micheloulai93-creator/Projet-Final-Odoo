@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- W04 - Wizard de Renouvellement de Contrat                     -->
+    <!-- ============================================================ -->
+
+    <!-- ACTION DU WIZARD -->
+    <record id="action_wizard_renouvellement" model="ir.actions.act_window">
+        <field name="name">Renouveler le contrat</field>
+        <field name="res_model">it.wizard.renouvellement</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_it_contrat"/>
+        <field name="binding_view_types">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Renouveler un contrat fournisseur
+            </p>
+        </field>
+    </record>
+
+    <!-- VUE FORMULAIRE DU WIZARD -->
+    <record id="view_wizard_renouvellement_form" model="ir.ui.view">
+        <field name="name">wizard.renouvellement.form</field>
+        <field name="model">it.wizard.renouvellement</field>
+        <field name="arch" type="xml">
+            <form string="Renouvellement de contrat">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Renouvellement de contrat</h1>
+                        <p class="text-muted">Prolonger ou mettre à jour un contrat fournisseur</p>
+                    </div>
+
+                    <group>
+                        <group string="Contrat concerné">
+                            <field name="contrat_id"/>
+                            <field name="contrat_display" invisible="1"/>
+                            <field name="fournisseur_display"/>
+                            <field name="ancienne_date_fin"/>
+                            <field name="ancien_montant"/>
+                        </group>
+                        <group string="Nouvelles informations">
+                            <field name="nouvelle_date_fin" required="1" widget="date"/>
+                            <field name="nouveau_montant" required="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="justificatif" required="1"
+                               placeholder="Ex: Négociation d'un meilleur tarif, prolongation des services, etc."/>
+                        <field name="commentaire" placeholder="Informations supplémentaires..."/>
+                    </group>
+
+                    <!-- Note d'information -->
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-info-circle" title="Information"/> Le contrat actuel sera conservé dans l'historique et un nouveau contrat sera créé avec les nouvelles informations.<br/>
+                        <small>Les équipements couverts par le contrat actuel seront automatiquement transférés vers le nouveau contrat.</small>
+                    </div>
+
+                    <!-- Comparaison -->
+                    <group string="Résumé des modifications" invisible="ancien_montant == 0">
+                        <div class="oe_stat_text">
+                            <span class="label">Évolution du montant :</span>
+                            <span class="o_stat_value">
+                                <field name="ancien_montant"/> FCFA
+                                →
+                                <field name="nouveau_montant"/> FCFA
+                                <span class="badge badge-success" invisible="nouveau_montant &lt;= ancien_montant">
+                                    <i class="fa fa-arrow-up" title="Augmentation"/> ↑
+                                </span>
+                                <span class="badge badge-warning" invisible="nouveau_montant &gt;= ancien_montant">
+                                    <i class="fa fa-arrow-down" title="Diminution"/> ↓
+                                </span>
+                            </span>
+                        </div>
+                        <div class="oe_stat_text">
+                            <span class="label">Date de fin :</span>
+                            <span class="o_stat_value">
+                                <field name="ancienne_date_fin"/>
+                                →
+                                <field name="nouvelle_date_fin"/>
+                            </span>
+                        </div>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_renouveler" string="Renouveler le contrat" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- MENU DU WIZARD -->
+    <menuitem id="menu_wizard_renouvellement"
+              name="Renouveler un contrat"
+              parent="it_parc.menu_it_parc_outils"
+              action="action_wizard_renouvellement"
+              groups="group_it_manager"
+              sequence="40"/>
+</odoo>

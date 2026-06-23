@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_maintenances">
+        <t t-call="web.html_container">
+            <t t-if="docs">
+                <div class="page" style="padding: 30px; font-family: Arial, Helvetica, sans-serif; color: #2c2c2c;">
+                    <div style="border-bottom: 3px solid #2d6da8; padding-bottom: 14px; margin-bottom: 24px;">
+                        <h1 style="color: #2d6da8; margin: 0; font-size: 24px; letter-spacing: 0.5px;">HISTORIQUE DES MAINTENANCES</h1>
+                        <p style="color: #888; margin: 4px 0 0 0; font-size: 13px;">TECHPARK CI — Au <t t-esc="datetime.date.today().strftime('%d/%m/%Y')"/></p>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                        <thead>
+                            <tr style="background-color: #2d6da8; color: white;">
+                                <th style="padding: 9px; text-align: center;">N°</th>
+                                <th style="padding: 9px; text-align: left;">Équipement</th>
+                                <th style="padding: 9px; text-align: left;">Type</th>
+                                <th style="padding: 9px; text-align: left;">Technicien</th>
+                                <th style="padding: 9px; text-align: left;">Début</th>
+                                <th style="padding: 9px; text-align: left;">Fin</th>
+                                <th style="padding: 9px; text-align: right;">Coût (FCFA)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="interv"
+                                t-attf-style="background-color: #{interv_index % 2 == 0 and '#ffffff' or '#f7f9fb'};">
+                                <td style="padding: 7px 9px; text-align: center; border-bottom: 1px solid #eee;" t-esc="interv_index + 1"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="interv.equipement_id.name or '-'"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="dict(interv._fields['type_intervention'].selection).get(interv.type_intervention) or ''"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="interv.technicien_id.name or '-'"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="interv.date_debut.strftime('%d/%m/%Y') if interv.date_debut else '-'"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;">
+                                    <t t-if="interv.date_fin">
+                                        <t t-esc="interv.date_fin.strftime('%d/%m/%Y')"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="display:inline-block; padding:2px 8px; border-radius:8px; font-size:10px; font-weight:bold; background:#fff3e0; color:#e65100;">EN COURS</span>
+                                    </t>
+                                </td>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee; text-align: right;" t-esc="'{:,.0f}'.format(interv.cout or 0)"/>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: #f0f4f8; font-weight: bold;">
+                                <td colspan="6" style="padding: 9px; text-align: right;">Coût total :</td>
+                                <td style="padding: 9px; text-align: right;" t-esc="'{:,.0f}'.format(docs.get_total_cout())"/>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 24px; font-size: 10px; color: #aaa; text-align: center;">
+                        Document confidentiel — TECHPARK CI — Généré le <t t-esc="datetime.date.today().strftime('%d/%m/%Y')"/>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="page" style="padding: 30px; font-family: Arial, sans-serif;">
+                    <p>Aucune intervention trouvée.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_maintenances" model="ir.actions.report">
+        <field name="name">Historique des maintenances</field>
+        <field name="model">it.intervention</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">it_parc.report_maintenances</field>
+        <field name="report_file">it_parc.report_maintenances</field>
+        <field name="binding_model_id" ref="model_it_intervention"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

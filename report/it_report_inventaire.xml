@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_inventaire">
+        <t t-call="web.html_container">
+            <t t-if="docs">
+                <div class="page" style="padding: 30px; font-family: Arial, Helvetica, sans-serif; color: #2c2c2c;">
+                    <div style="border-bottom: 3px solid #2d6da8; padding-bottom: 14px; margin-bottom: 24px;">
+                        <h1 style="color: #2d6da8; margin: 0; font-size: 24px; letter-spacing: 0.5px;">INVENTAIRE DU PARC INFORMATIQUE</h1>
+                        <p style="color: #888; margin: 4px 0 0 0; font-size: 13px;">TECHPARK CI — Au <t t-esc="datetime.date.today().strftime('%d/%m/%Y')"/></p>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                        <thead>
+                            <tr style="background-color: #2d6da8; color: white;">
+                                <th style="padding: 9px; text-align: center;">N°</th>
+                                <th style="padding: 9px; text-align: left;">Nom</th>
+                                <th style="padding: 9px; text-align: left;">Catégorie</th>
+                                <th style="padding: 9px; text-align: left;">Série</th>
+                                <th style="padding: 9px; text-align: left;">Employé</th>
+                                <th style="padding: 9px; text-align: center;">État</th>
+                                <th style="padding: 9px; text-align: right;">Valeur (FCFA)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="equip"
+                                t-attf-style="background-color: #{equip_index % 2 == 0 and '#ffffff' or '#f7f9fb'};">
+                                <td style="padding: 7px 9px; text-align: center; border-bottom: 1px solid #eee;" t-esc="equip_index + 1"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="equip.name or ''"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="dict(equip._fields['categorie'].selection).get(equip.categorie) or ''"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="equip.num_serie or '-'"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee;" t-esc="equip.employe_id.name or '-'"/>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee; text-align: center;">
+                                    <t t-set="badge_colors" t-value="{'draft': ('#f3f3f3', '#666'), 'assigned': ('#e8f5e9', '#2e7d32'), 'in_maintenance': ('#fff3e0', '#e65100'), 'retired': ('#fce4ec', '#c62828')}"/>
+                                    <t t-set="bg" t-value="badge_colors.get(equip.state, ('#f3f3f3', '#666'))[0]"/>
+                                    <t t-set="fg" t-value="badge_colors.get(equip.state, ('#f3f3f3', '#666'))[1]"/>
+                                    <span t-attf-style="display:inline-block; padding:2px 9px; border-radius:8px; font-size:10px; font-weight:bold; background:#{bg}; color:#{fg};"
+                                          t-esc="dict(equip._fields['state'].selection).get(equip.state) or ''"/>
+                                </td>
+                                <td style="padding: 7px 9px; border-bottom: 1px solid #eee; text-align: right;" t-esc="'{:,.0f}'.format(equip.valeur_achat or 0)"/>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: #f0f4f8; font-weight: bold;">
+                                <td colspan="6" style="padding: 9px; text-align: right;">Valeur totale du parc :</td>
+                                <td style="padding: 9px; text-align: right;" t-esc="'{:,.0f}'.format(docs.get_total_valeur())"/>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 24px; font-size: 10px; color: #aaa; text-align: center;">
+                        Document confidentiel — TECHPARK CI — Généré le <t t-esc="datetime.date.today().strftime('%d/%m/%Y')"/>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="page" style="padding: 30px; font-family: Arial, sans-serif;">
+                    <p>Aucun équipement trouvé.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_inventaire" model="ir.actions.report">
+        <field name="name">Inventaire complet</field>
+        <field name="model">it.equipement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">it_parc.report_inventaire</field>
+        <field name="report_file">it_parc.report_inventaire</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
